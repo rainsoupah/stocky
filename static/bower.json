@@ -1,0 +1,24 @@
+{
+  "name": "stockly",
+  "version": "0.0.0",
+  "authors": [
+    "timpei <timtimpei@hotmail.com>"
+  ],
+  "description": "Compare Stocks",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "~0.13.1",
+    "angular-resource": "~1.4.3",
+    "bootstrap": "~3.3.5"
+  }
+}
