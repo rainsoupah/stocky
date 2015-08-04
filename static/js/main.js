@@ -8,7 +8,7 @@ stocky.controller('mainController', function($scope, yahooService) {
 
     $scope.go = function() {
         $scope.data = [];
-        
+
         yahooService.getQuotes([$scope.ticker]).then(function(data) {
             $scope.data.push(data[0]);
         }, handleError);
@@ -34,7 +34,7 @@ stocky.service( "yahooService", function( $http, $q ) {
     });
 
     function getProfile(ticker) {
-        var request = $http.get("/api/yahoo/getProfile", {
+        var request = $http.get("api/yahoo/getProfile", {
             params: {s: ticker}
         })
         return(request.then(function(response) {
@@ -45,7 +45,7 @@ stocky.service( "yahooService", function( $http, $q ) {
     function getQuotes(tickers) {
         var request = $http({
             method: "GET",
-            url: "/api/yahoo/getQuotes",
+            url: "api/yahoo/getQuotes",
             params: {
                 s: tickers.join("+")
             }
