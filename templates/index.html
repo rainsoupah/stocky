@@ -38,7 +38,6 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Competitive Analysis</h1>
-
           <form class="form-inline">
             <div class="form-group">
              <label class="sr-only">Ticker</label>
@@ -50,7 +49,18 @@
            <button type="submit" class="btn btn-success" ng-click="go()">Go</button>
          </form>
 
-         <h2 class="sub-header">Data</h2>
+        <table ng-if="profile.sector" class="table table-bordered" id="profileGrid">
+          <tr>
+            <th>Sector</th>
+            <td>{{profile['sector']}}</td>
+          </tr>
+          <tr>
+            <th>Industry</th>
+            <td>{{profile['industry']}}</td>
+          </tr>
+        </table>
+
+         <h2 class="sub-header">Data <span ng-if="data.length">({{ticker}})</span></h2>
          <div class="table-responsive">
           <table class="table table-bordered" id="compGrid">
             <tr>

@@ -109,9 +109,15 @@ body {
  */
 
 .table {
-	width: inherit;
+  width: inherit;
 }
 
 .verticalTitle1 {
 	width: 50px;
 }
+
+#profileGrid {
+  margin-top: 10px;
+  width: 500px;
+}
+

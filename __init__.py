@@ -4,8 +4,8 @@ app.debug = True
 
 import os
 import urllib2
-import csv
-import StringIO
+import csv, StringIO
+import requests, json
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -14,6 +14,27 @@ def home():
     return make_response(open('%s/templates/index.html' % BASE_DIR).read())
 
 # APIs
+
+@app.route('/api/yahoo/getProfile', methods=['GET'])
+def yahooGetProfile():
+    symbol = request.args.get('s', '')
+
+    url = """http://query.yahooapis.com/v1/public/yql?q=
+                    select * 
+                    from html 
+                    where url="http://finance.yahoo.com/q/pr?s=%s" 
+                    and xpath='//td[contains(@class,"yfnc_tabledata1")]'
+                &format=json
+            """ % (symbol)
+
+    r = requests.get(url)
+    raw = json.loads(r.text)
+
+    result = {
+        'sector': raw['query']['results']['td'][1]['a']['content'],
+        'industry': raw['query']['results']['td'][2]['a']['content']
+    }
+    return jsonify(**result)
 
 @app.route('/api/yahoo/getQuotes', methods=['GET'])
 def yahooGetQuotes():

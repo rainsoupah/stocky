@@ -2,18 +2,25 @@ var stocky = angular.module('stocky',['ngResource']);
 
 stocky.controller('mainController', function($scope, yahooService) {
     $scope.ticker = "";
+    $scope.profile = {};
 
     $scope.data = []
 
     $scope.go = function() {
+        $scope.data = [];
+        
         yahooService.getQuotes([$scope.ticker]).then(function(data) {
             $scope.data.push(data[0]);
-            console.log($scope.data);
-        }, 
-        function(error) {
-            alert(error);
-            console.log(error);
-        });
+        }, handleError);
+
+        yahooService.getProfile($scope.ticker).then(function(data) {
+            $scope.profile = data;
+        }, handleError);
+    }
+
+    var handleError = function(error) {
+        alert(error);
+        console.log(error);
     }
 });
 
@@ -23,7 +30,17 @@ stocky.service( "yahooService", function( $http, $q ) {
     // Return public API.
     return({
         getQuotes: getQuotes,
+        getProfile: getProfile
     });
+
+    function getProfile(ticker) {
+        var request = $http.get("/api/yahoo/getProfile", {
+            params: {s: ticker}
+        })
+        return(request.then(function(response) {
+            return response.data;
+        }, handleError));
+    }
 
     function getQuotes(tickers) {
         var request = $http({
@@ -33,7 +50,9 @@ stocky.service( "yahooService", function( $http, $q ) {
                 s: tickers.join("+")
             }
         });
-        return( request.then( handleSuccess, handleError ) );
+        return(request.then(function(response) {
+            return response.data.data;
+        }, handleError));
     }
 
 
@@ -48,11 +67,5 @@ stocky.service( "yahooService", function( $http, $q ) {
         }
         // Otherwise, use expected error message.
         return( $q.reject( response.data.message ) );
-    }
-
-    // I transform the successful response, unwrapping the application data
-    // from the API response payload.
-    function handleSuccess( response ) {
-        return( response.data.data );
     }
 });
