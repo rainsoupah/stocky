@@ -3,7 +3,7 @@ app = Flask(__name__)
 app.debug = True
 
 import os
-import urllib2
+import urllib2, urllib
 import csv, StringIO
 import requests, json
 
@@ -14,6 +14,32 @@ def home():
     return make_response(open('%s/templates/index.html' % BASE_DIR).read())
 
 # APIs
+
+@app.route('/api/nasdaq/getCompetitors', methods=['GET'])
+def nasdaqGetCompetitors():
+    symbol = request.args.get('s', '')
+    pages = request.args.get('p', 2)
+    result = []
+
+    for page in xrange(1, int(pages+1)):
+        url = """http://query.yahooapis.com/v1/public/yql?q=
+                        select * 
+                        from html 
+                        where url="%s" 
+                        and xpath='//td[contains(@class,"TalignL")]'&format=json
+                    &format=json
+                """ % urllib.quote_plus(
+                    "http://www.nasdaq.com/symbol/%s/competitors?sortname=marketcapitalizationinmillions&sorttype=1&page=%d"
+                    % (symbol.lower(), page))
+
+        r = requests.get(url)
+        raw = json.loads(r.text)
+        print raw
+        for competitor in raw['query']['results']['td']:
+            if competitor['a']['content'] != symbol and not competitor['a']['content'] in result:
+                result.append(competitor['a']['content'])
+
+    return jsonify(**{'data': result})
 
 @app.route('/api/yahoo/getProfile', methods=['GET'])
 def yahooGetProfile():

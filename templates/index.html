@@ -61,216 +61,226 @@
         </table>
 
          <h2 class="sub-header">Data <span ng-if="data.length">({{ticker}})</span></h2>
-         <div class="table-responsive">
-          <table class="table table-bordered" id="compGrid">
-            <tr>
-              <td colspan="2"> </td>
-              <th ng-repeat="ticker in data">
-                {{ticker['Symbol']}} - {{ticker['Name']}}
-              </th>
-            </tr>
-            <tr>
-              <th class="verticalTitle1" rowspan="4">Overview</th>
-              <th class="verticalTitle2">Market Capitalization</th>
-              <td ng-repeat="ticker in data">
-                {{ticker['Market Capitalization']}}
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Stock Price</th>
-              <td ng-repeat="ticker in data">
-                {{ticker['Ask']}}
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">52 Week Range</th>
-              <td ng-repeat="ticker in data">
-                {{ticker['52-week Range']}}
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Short Interest Ratio</th>
-              <td ng-repeat="ticker in data">
-                {{ticker['Short Ratio']}}
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle1" rowspan="4">Liquidity</th>
-              <th class="verticalTitle2">Current Ratio</th>
-              <td ng-repeat="ticker in data">
+         <div class="table-responsive" id="compGrid">
+          <table class="table table-bordered"  fixed-headers="{fixedColumn: true, fixedColumns: 2}">
+            <thead>
+              <tr>
+                <td colspan="2"> </td>
+                <th ng-repeat="ticker in data">
+                  {{ticker['Symbol']}} - {{ticker['Name']}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="verticalTitle1" rowspan="4">Overview</th>
+                <th class="verticalTitle2">Market Capitalization</th>
+                <td ng-repeat="ticker in data">
+                  {{ticker['Market Capitalization']}}
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Stock Price</th>
+                <td ng-repeat="ticker in data">
+                  {{ticker['Last Trade (Price Only)']}}
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">52 Week Range</th>
+                <td ng-repeat="ticker in data">
+                  {{ticker['52-week Range']}}
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Short Interest Ratio</th>
+                <td ng-repeat="ticker in data">
+                  {{ticker['Short Ratio']}}
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle1" rowspan="4">Liquidity</th>
+                <th class="verticalTitle2">Current Ratio</th>
+                <td ng-repeat="ticker in data">
 
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Quick Ratio</th>
-              <td ng-repeat="ticker in data">
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Quick Ratio</th>
+                <td ng-repeat="ticker in data">
 
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Cash Conversion Cycle</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Cash Ratio</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle1" rowspan="6">Profitability</th>
-              <th class="verticalTitle2">Gross Profit Margin</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Operating Profit Margin</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Net Profit Margin</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Return on Assets</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Return on Equity</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Return on Invested Capital</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle1" rowspan="5">Solvency</th>
-              <th class="verticalTitle2">Debt to Asset</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Debt to Equity</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Capital Structure</th>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Interest Coverage Ratio</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">FCF to Debt</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle1" rowspan="3">Operation (Manufacturing and Merchandise)</th>
-              <th class="verticalTitle2">Asset Turnover Ratio</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Operating Cycle</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Inventory Cycle</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle1" rowspan="4">Cash Flow</th>
-              <th class="verticalTitle2">Operating Cash Flow/Sales</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Free Cash Flow/Operating Cash</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Cash Flow Coverage</th>
-              <td ng-repeat="ticker in data">
-                
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Dividend Payout</th>
-              <td ng-repeat="ticker in data">
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Cash Conversion Cycle</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Cash Ratio</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle1" rowspan="6">Profitability</th>
+                <th class="verticalTitle2">Gross Profit Margin</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Operating Profit Margin</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Net Profit Margin</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Return on Assets</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Return on Equity</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Return on Invested Capital</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle1" rowspan="5">Solvency</th>
+                <th class="verticalTitle2">Debt to Asset</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Debt to Equity</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Capital Structure</th>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Interest Coverage Ratio</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">FCF to Debt</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle1" rowspan="3">Operation (Manufacturing and Merchandise)</th>
+                <th class="verticalTitle2">Asset Turnover Ratio</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Operating Cycle</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Inventory Cycle</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle1" rowspan="4">Cash Flow</th>
+                <th class="verticalTitle2">Operating Cash Flow/Sales</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Free Cash Flow/Operating Cash</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Cash Flow Coverage</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Dividend Payout</th>
+                <td ng-repeat="ticker in data">
 
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle1" rowspan="8">Valuation</th>
-              <th class="verticalTitle2">Price/Book</th>
-              <td ng-repeat="ticker in data">
-                {{ticker['Price/Book']}}
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Price/Earnings (Forward, Trailing)</th>
-              <td ng-repeat="ticker in data">
-                {{ticker['P/E Ratio']}}
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">P/E to Growth</th>
-              <td ng-repeat="ticker in data">
-                {{ticker['PEG Ratio']}}
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Price/Sales</th>
-              <td ng-repeat="ticker in data">
-                {{ticker['Price/Sales']}}
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Price/NAV</th>
-              <td ng-repeat="ticker in data">
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle1" rowspan="8">Valuation</th>
+                <th class="verticalTitle2">Price/Book</th>
+                <td ng-repeat="ticker in data">
+                  {{ticker['Price/Book']}}
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Price/Earnings (Forward, Trailing)</th>
+                <td ng-repeat="ticker in data">
+                  {{ticker['P/E Ratio']}}
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">P/E to Growth</th>
+                <td ng-repeat="ticker in data">
+                  {{ticker['PEG Ratio']}}
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Price/Sales</th>
+                <td ng-repeat="ticker in data">
+                  {{ticker['Price/Sales']}}
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Price/NAV</th>
+                <td ng-repeat="ticker in data">
 
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Dividend Yield</th>
-              <td ng-repeat="ticker in data">
-                {{ticker['Dividend Yield']}}
-              </td>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">Cash Flow Coverage</th>
-            </tr>
-            <tr>
-              <th class="verticalTitle2">EV/EBITDA</th>
-            </tr>
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Dividend Yield</th>
+                <td ng-repeat="ticker in data">
+                  {{ticker['Dividend Yield']}}
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">Cash Flow Coverage</th>
+                <td ng-repeat="ticker in data">
+
+                </td>
+              </tr>
+              <tr>
+                <th class="verticalTitle2">EV/EBITDA</th>
+                <td ng-repeat="ticker in data">
+
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>

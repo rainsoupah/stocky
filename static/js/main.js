@@ -16,6 +16,13 @@ stocky.controller('mainController', function($scope, yahooService) {
         yahooService.getProfile($scope.ticker).then(function(data) {
             $scope.profile = data;
         }, handleError);
+
+        yahooService.getCompetitors($scope.ticker).then(function(data) {
+            console.log(data);
+            yahooService.getQuotes(data).then(function(data) {
+                $scope.data = $scope.data.concat(data);
+            });
+        }, handleError);
     }
 
     var handleError = function(error) {
@@ -30,8 +37,18 @@ stocky.service( "yahooService", function( $http, $q ) {
     // Return public API.
     return({
         getQuotes: getQuotes,
-        getProfile: getProfile
+        getProfile: getProfile,
+        getCompetitors: getCompetitors
     });
+
+    function getCompetitors(ticker) {
+        var request = $http.get("api/nasdaq/getCompetitors", {
+            params: {s: ticker}
+        })
+        return(request.then(function(response) {
+            return response.data.data;
+        }, handleError));
+    }
 
     function getProfile(ticker) {
         var request = $http.get("api/yahoo/getProfile", {
