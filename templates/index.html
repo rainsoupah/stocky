@@ -31,12 +31,14 @@
 
     <div class="container-fluid">
       <div class="row">
+        <!--
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Competitive Analysis <span class="sr-only">(current)</span></a></li>
           </ul>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+  -->
+        <div class="col-sm-12 col-md-12 main">
           <h1 class="page-header">Competitive Analysis</h1>
           <form class="form-inline">
             <div class="form-group">
@@ -60,7 +62,7 @@
           </tr>
         </table>
 
-         <h2 class="sub-header">Data <span ng-if="data.length">({{ticker}})</span></h2>
+         <h2 class="sub-header">Data <span ng-if="data.length">({{tickerDisplay}})</span></h2>
          <div class="table-responsive" id="compGrid">
           <table class="table table-bordered"  fixed-headers="{fixedColumn: true, fixedColumns: 2}">
             <thead>
@@ -101,13 +103,13 @@
                 <th class="verticalTitle1" rowspan="4">Liquidity</th>
                 <th class="verticalTitle2">Current Ratio</th>
                 <td ng-repeat="ticker in data">
-
+                  {{ticker['Current Ratio']}}
                 </td>
               </tr>
               <tr>
                 <th class="verticalTitle2">Quick Ratio</th>
                 <td ng-repeat="ticker in data">
-
+                  {{ticker['Quick Ratio']}}
                 </td>
               </tr>
               <tr>
@@ -119,26 +121,26 @@
               <tr>
                 <th class="verticalTitle2">Cash Ratio</th>
                 <td ng-repeat="ticker in data">
-                  
+                  {{ticker['Cash Ratio']}}
                 </td>
               </tr>
               <tr>
                 <th class="verticalTitle1" rowspan="6">Profitability</th>
                 <th class="verticalTitle2">Gross Profit Margin</th>
                 <td ng-repeat="ticker in data">
-                  
+                  {{ticker['Gross Margin']}}
                 </td>
               </tr>
               <tr>
                 <th class="verticalTitle2">Operating Profit Margin</th>
                 <td ng-repeat="ticker in data">
-                  
+                  {{ticker['Operating Margin']}}
                 </td>
               </tr>
               <tr>
                 <th class="verticalTitle2">Net Profit Margin</th>
                 <td ng-repeat="ticker in data">
-                  
+                  {{ticker['Profit Margin']}}  <!-- TODO Tim: is this right? -->
                 </td>
               </tr>
               <tr>
@@ -150,7 +152,7 @@
               <tr>
                 <th class="verticalTitle2">Return on Equity</th>
                 <td ng-repeat="ticker in data">
-                  
+                  {{ticker['After Tax ROE']}}
                 </td>
               </tr>
               <tr>
@@ -174,6 +176,9 @@
               </tr>
               <tr>
                 <th class="verticalTitle2">Capital Structure</th>
+                <td ng-repeat="ticker in data">
+                  
+                </td>
               </tr>
               <tr>
                 <th class="verticalTitle2">Interest Coverage Ratio</th>
@@ -226,9 +231,9 @@
                 </td>
               </tr>
               <tr>
-                <th class="verticalTitle2">Dividend Payout</th>
+                <th class="verticalTitle2">Dividend/Share</th>
                 <td ng-repeat="ticker in data">
-
+                  {{ticker['Dividend/Share']}}
                 </td>
               </tr>
               <tr>

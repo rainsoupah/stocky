@@ -2,25 +2,38 @@ var stocky = angular.module('stocky',['ngResource']);
 
 stocky.controller('mainController', function($scope, yahooService) {
     $scope.ticker = "";
+    $scope.tickerDisplay = "";
     $scope.profile = {};
 
     $scope.data = []
 
     $scope.go = function() {
         $scope.data = [];
+        $scope.tickerDisplay = $scope.ticker;
 
         yahooService.getQuotes([$scope.ticker]).then(function(data) {
             $scope.data.push(data[0]);
+            yahooService.getRatios($scope.ticker).then(function(data) {
+                for (var attr in data.result) {
+                    $scope.data[0][attr] = data.result[attr];
+                }
+            })
         }, handleError);
 
         yahooService.getProfile($scope.ticker).then(function(data) {
             $scope.profile = data;
         }, handleError);
 
-        yahooService.getCompetitors($scope.ticker).then(function(data) {
-            console.log(data);
-            yahooService.getQuotes(data).then(function(data) {
+        yahooService.getCompetitors($scope.ticker).then(function(competitors) {
+            yahooService.getQuotes(competitors).then(function(data) {
                 $scope.data = $scope.data.concat(data);
+                for (var i = 0; i < competitors.length; i++) {
+                    yahooService.getRatios(competitors[i], i).then(function(data) {
+                        for (var attr in data.result) {
+                            $scope.data[data.index+1][attr] = data.result[attr];
+                        }
+                    })
+                }
             });
         }, handleError);
     }
@@ -38,8 +51,18 @@ stocky.service( "yahooService", function( $http, $q ) {
     return({
         getQuotes: getQuotes,
         getProfile: getProfile,
-        getCompetitors: getCompetitors
+        getCompetitors: getCompetitors,
+        getRatios: getRatios
     });
+
+    function getRatios(ticker, i) {
+        var request = $http.get("api/nasdaq/getRatios", {
+            params: {s: ticker}
+        })
+        return(request.then(function(response) {
+            return {result: response.data, index: i};
+        }, handleError));
+    }
 
     function getCompetitors(ticker) {
         var request = $http.get("api/nasdaq/getCompetitors", {

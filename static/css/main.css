@@ -33,7 +33,7 @@ body {
 .sidebar {
   display: none;
 }
-@media (min-width: 768px) {
+@media (min-width: 500px) {
   .sidebar {
     position: fixed;
     top: 51px;
@@ -113,7 +113,7 @@ body {
 }
 
 .verticalTitle1 {
-  width: 50px;
+  width: 50px
 }
 
 #profileGrid {
