@@ -6,15 +6,15 @@ import urllib2, urllib
 import csv, StringIO
 import requests, json
 
+from utils import escape
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
 app.debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
 
-
-
 db = SQLAlchemy(app)
-from models import Competitor, BalanceSheet, IncomeStatement
+from models import Competitor, FinancialStatement
 
 db.create_all()
 
@@ -24,6 +24,55 @@ def home():
 
 # APIs
 
+
+@app.route('/api/google/getAllFinances', methods=['GET'])
+def googleGetBalanceSheet():
+    FS_TAGS = {
+        'incinterimdiv': 'IS',
+        'balinterimdiv': 'BS',
+        'casinterimdiv': 'CF'
+    }
+    symbol = request.args.get('s', '')
+
+    fs = FinancialStatement.query.get(symbol)
+    if not fs is None:
+        return jsonify(**json.loads(fs.fsJSON))
+
+    url = """http://query.yahooapis.com/v1/public/yql?q=
+                    select * 
+                    from html 
+                    where url="%s" 
+                    and xpath='//div[@id="incinterimdiv" or 
+                                     @id="balinterimdiv" or 
+                                     @id="casinterimdiv"]'
+                &format=json
+            """ % urllib.quote_plus(
+                "https://www.google.com/finance?q=NASDAQ:%s&fstype=ii"
+                % symbol)
+
+
+    r = requests.get(url)
+    raw = json.loads(r.text)
+
+    result = {
+        FS_TAGS['incinterimdiv']: {},
+        FS_TAGS['balinterimdiv']: {},
+        FS_TAGS['casinterimdiv']: {}
+    }
+
+    for table in raw['query']['results']['div']:
+        for row in table['table']['tbody']['tr']:
+            if 'content' in row['td'][1]:
+                result[FS_TAGS[table['id']]][escape(row['td'][0]['content'])]= row['td'][1]['content']
+            else:
+                result[FS_TAGS[table['id']]][escape(row['td'][0]['content'])] = row['td'][1]['span']['content']
+
+    fs = FinancialStatement(symbol, json.dumps(result))
+    db.session.add(fs)
+    db.session.commit()
+
+    return jsonify(**result)
+
 @app.route('/api/nasdaq/getRatios', methods=['GET'])
 def nasdaqGetRatios():
     symbol = request.args.get('s', '')
@@ -31,7 +80,7 @@ def nasdaqGetRatios():
                     select * 
                     from html 
                     where url="%s" 
-                    and xpath='//div[contains(@class,"genTable")]//th/..'&format=json
+                    and xpath='//div[contains(@class,"genTable")]//th/..'
                 &format=json
             """ % urllib.quote_plus(
                 "http://www.nasdaq.com/symbol/%s/financials?query=ratios"
@@ -55,8 +104,9 @@ def nasdaqGetCompetitors():
     pages = request.args.get('p', 1)
     result = []
 
-    if (Competitor.query.get(symbol)):
-        return jsonify(**{'data': Competitor.query.get(symbol.id)})
+    comps = Competitor.query.get(symbol)
+    if not comps is None:
+        return jsonify(**{'data': comps.competitorJSON})
 
     for page in xrange(1, int(pages+1)):
         url = """http://query.yahooapis.com/v1/public/yql?q=
@@ -79,7 +129,7 @@ def nasdaqGetCompetitors():
     comps = Competitor(symbol, json.dumps(result))
     db.session.add(comps)
     db.session.commit()
-    
+
     return jsonify(**{'data': result})
 
 @app.route('/api/yahoo/getProfile', methods=['GET'])
