@@ -110,10 +110,11 @@ body {
 
 .table {
   width: inherit;
+  margin-bottom: 0px;
 }
 
-.verticalTitle1 {
-  width: 50px
+th {
+  background-color: white;
 }
 
 #profileGrid {

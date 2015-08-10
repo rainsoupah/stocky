@@ -106,7 +106,7 @@ def nasdaqGetCompetitors():
 
     comps = Competitor.query.get(symbol)
     if not comps is None:
-        return jsonify(**{'data': comps.competitorJSON})
+        return jsonify(**{'data': json.loads(comps.competitorJSON)})
 
     for page in xrange(1, int(pages+1)):
         url = """http://query.yahooapis.com/v1/public/yql?q=

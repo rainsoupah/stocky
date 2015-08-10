@@ -19,6 +19,8 @@
   "dependencies": {
     "angular-bootstrap": "~0.13.1",
     "angular-resource": "~1.4.3",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "angular-datatables": "~0.4.3",
+    "datatables-fixedcolumns": "~3.0.4"
   }
 }
