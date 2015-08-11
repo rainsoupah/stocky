@@ -1,9 +1,10 @@
-from app import db
+from . import db
 
 
 class Competitor(db.Model):
 
     __tablename__ = 'competitor'
+    __table_args__ = {'extend_existing': True}
 
     ticker = db.Column(db.String(10), primary_key=True)
     competitorJSON = db.Column(db.String(250))
@@ -18,6 +19,7 @@ class Competitor(db.Model):
 class FinancialStatement(db.Model):
 
     __tablename__ = 'balance_sheet'
+    __table_args__ = {'extend_existing': True}
 
     ticker = db.Column(db.String(10), primary_key=True)
     fsJSON = db.Column(db.Text)
