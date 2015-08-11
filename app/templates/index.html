@@ -25,6 +25,8 @@
   <script src="static/bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js"></script>
   <script src="static/bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.min.js"></script>
   <script src="static/js/main.js"></script>
+  <script src="static/js/controllers/mainController.js"></script>
+  <script src="static/js/controllers/compTableController.js"></script>
 
 </head>
 <body ng-controller="mainController">
@@ -69,11 +71,11 @@
         </table>
 
          <h2 class="sub-header">Data <span ng-if="data.length">({{tickerDisplay}})</span></h2>
-         <div class="table-responsive" id="compGrid">
+         <div class="table-responsive" id="compGrid" ng-controller="compTableController">
           <table class="table table-bordered" datatable="ng"  dt-instance="dtInstance" dt-options="tableOptions" dt-column-defs="tableColumnDefs" dt-disable-deep-watchers="true">
             <thead>
               <tr>
-                <th rowspan="2">Ticker</th>
+                <th rowspan="2" id="tickerColumn">Ticker</th>
                 <th colspan="4">Overview</th>
                 <th colspan="4">Liquidity</th>
                 <th colspan="6">Profitability</th>
@@ -138,9 +140,13 @@
                 <td>{{ticker['Quick Ratio']}}</td>
                 <td><!--- Cash Conversion Cycle --></td>
                 <td>{{ticker['Cash Ratio']}}</td>
+
                 <td>{{ticker['Gross Margin']}}</td>
                 <td>{{ticker['Operating Margin']}}</td>
+                <td><!-- Net Profit Margin --></td>
+                <td><!-- Return on Assets --></td>
                 <td>{{ticker['After Tax ROE']}}</td>
+                <td><!-- Return on Invested Capital --></td>
 
                 <td><!-- Debt to Asset --></td>
                 <td><!-- Debt to Equity --></td>

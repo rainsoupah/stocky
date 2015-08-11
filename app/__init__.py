@@ -59,13 +59,14 @@ def googleGetBalanceSheet():
         FS_TAGS['balinterimdiv']: {},
         FS_TAGS['casinterimdiv']: {}
     }
-
-    for table in raw['query']['results']['div']:
-        for row in table['table']['tbody']['tr']:
-            if 'content' in row['td'][1]:
-                result[FS_TAGS[table['id']]][escape(row['td'][0]['content'])]= row['td'][1]['content']
-            else:
-                result[FS_TAGS[table['id']]][escape(row['td'][0]['content'])] = row['td'][1]['span']['content']
+    if raw['query']['count'] != 0:
+        for table in raw['query']['results']['div']:
+            if not table['table']['tbody'] is None:
+                for row in table['table']['tbody']['tr']:
+                    if 'content' in row['td'][1]:
+                        result[FS_TAGS[table['id']]][escape(row['td'][0]['content'])]= row['td'][1]['content']
+                    else:
+                        result[FS_TAGS[table['id']]][escape(row['td'][0]['content'])] = row['td'][1]['span']['content']
 
     fs = FinancialStatement(symbol, json.dumps(result))
     db.session.add(fs)

@@ -115,6 +115,11 @@ body {
 
 th {
   background-color: white;
+  text-align: center;
+}
+
+#tickerColumn {
+  min-width: 200px;
 }
 
 #profileGrid {
