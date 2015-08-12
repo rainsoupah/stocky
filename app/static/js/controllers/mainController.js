@@ -9,6 +9,7 @@ stocky.controller('mainController', function($scope, yahooService) {
 
     $scope.go = function() {
         $scope.data = [];
+        $scope.ticker = $scope.ticker.toUpperCase();
         $scope.tickerDisplay = $scope.ticker;
 
         yahooService.getQuotes([$scope.ticker]).then(function(data) {
