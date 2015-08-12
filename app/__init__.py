@@ -6,7 +6,7 @@ import urllib2, urllib
 import csv, StringIO
 import requests, json
 
-from utils import escape
+from utils import escape, toNum
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
@@ -28,9 +28,9 @@ def home():
 @app.route('/api/google/getAllFinances', methods=['GET'])
 def googleGetBalanceSheet():
     FS_TAGS = {
-        'incinterimdiv': 'IS',
-        'balinterimdiv': 'BS',
-        'casinterimdiv': 'CF'
+        'incannualdiv': 'IS',
+        'balannualdiv': 'BS',
+        'casannualdiv': 'CF'
     }
     symbol = request.args.get('s', '')
 
@@ -42,9 +42,9 @@ def googleGetBalanceSheet():
                     select * 
                     from html 
                     where url="%s" 
-                    and xpath='//div[@id="incinterimdiv" or 
-                                     @id="balinterimdiv" or 
-                                     @id="casinterimdiv"]'
+                    and xpath='//div[@id="incannualdiv" or 
+                                     @id="balannualdiv" or 
+                                     @id="casannualdiv"]'
                 &format=json
             """ % urllib.quote_plus(
                 "https://www.google.com/finance?q=NASDAQ:%s&fstype=ii"
@@ -55,18 +55,22 @@ def googleGetBalanceSheet():
     raw = json.loads(r.text)
 
     result = {
-        FS_TAGS['incinterimdiv']: {},
-        FS_TAGS['balinterimdiv']: {},
-        FS_TAGS['casinterimdiv']: {}
+        'IS': {},
+        'BS': {},
+        'CF': {}
     }
+
     if raw['query']['count'] != 0:
         for table in raw['query']['results']['div']:
             if not table['table']['tbody'] is None:
                 for row in table['table']['tbody']['tr']:
+                    tableId = FS_TAGS[table['id']]
+                    dataColumn = escape(row['td'][0]['content'])
                     if 'content' in row['td'][1]:
-                        result[FS_TAGS[table['id']]][escape(row['td'][0]['content'])]= row['td'][1]['content']
+                        content = row['td'][1]['content']
                     else:
-                        result[FS_TAGS[table['id']]][escape(row['td'][0]['content'])] = row['td'][1]['span']['content']
+                        content = row['td'][1]['span']['content']
+                    result[tableId][dataColumn] = toNum(content)
 
     fs = FinancialStatement(symbol, json.dumps(result))
     db.session.add(fs)

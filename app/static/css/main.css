@@ -116,6 +116,11 @@ body {
 th {
   background-color: white;
   text-align: center;
+  font-size: 11px;
+}
+
+th {
+  min-width: 100px;
 }
 
 #tickerColumn {
@@ -123,7 +128,6 @@ th {
 }
 
 #profileGrid {
-  margin-top: 10px;
   width: 500px;
 }
 

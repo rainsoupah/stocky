@@ -3,11 +3,12 @@ stocky.controller('compTableController', function($scope, DTOptionsBuilder, DTCo
     $scope.dtInstance = {};
 
     $scope.tableOptions =  DTOptionsBuilder.newOptions()
-        .withOption('scrollY', '500px')
+        .withOption('scrollY', '450px')
         .withOption('scrollX', '100%')
         .withOption('paging', false)
         .withOption('scrollCollapse', true)
         .withOption('bSort', false)
+        .withOption('bFilter', false)
         .withFixedColumns({
             leftColumns: 1
         });
