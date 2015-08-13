@@ -3,13 +3,13 @@ stocky.controller('compTableController', function($scope, DTOptionsBuilder, DTCo
     $scope.dtInstance = {};
 
     $scope.tableOptions =  DTOptionsBuilder.newOptions()
-        .withOption('scrollY', '450px')
+        .withOption('scrollY', '450px')         // sets the height of the table
         .withOption('scrollX', '100%')
-        .withOption('paging', false)
-        .withOption('scrollCollapse', true)
-        .withOption('bSort', false)
-        .withOption('bFilter', false)
-        .withFixedColumns({
+        .withOption('paging', false)            // disables pagination
+        .withOption('scrollCollapse', true) 
+        .withOption('bSort', false)             // disables initial row sorting
+        .withOption('bFilter', false)           // disables the search bar
+        .withFixedColumns({                     // fixes the left column (symbols)
             leftColumns: 1
         });
 
@@ -80,9 +80,7 @@ stocky.controller('compTableController', function($scope, DTOptionsBuilder, DTCo
             .withOption('defaultContent', 'N/A'),
         DTColumnDefBuilder.newColumnDef(32)    // Dividend Yield
             .withOption('defaultContent', 'N/A'),
-        DTColumnDefBuilder.newColumnDef(33)    // Cash Flow Coverage
-            .withOption('defaultContent', 'N/A'),
-        DTColumnDefBuilder.newColumnDef(34)     // EV/EBITDA
+        DTColumnDefBuilder.newColumnDef(33)     // EV/EBITDA
             .withOption('defaultContent', 'N/A')
     ]
 

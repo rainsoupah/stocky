@@ -19,11 +19,11 @@
   <script src="static/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="static/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
   <script src="static/bower_components/angular/angular.min.js"></script>
-  <script src="static/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
   <script src="static/bower_components/angular-resource/angular-resource.min.js"></script>
   <script src="static/bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
   <script src="static/bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js"></script>
   <script src="static/bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.min.js"></script>
+
   <script src="static/js/main.js"></script>
   <script src="static/js/controllers/mainController.js"></script>
   <script src="static/js/controllers/compTableController.js"></script>
@@ -35,47 +35,48 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="/">Stocky</a>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <div class="container-fluid">
-      <div class="row">
-        <!--
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Competitive Analysis <span class="sr-only">(current)</span></a></li>
-          </ul>
-        </div>
-  -->
-        <div class="col-sm-12 col-md-12 main">
-          <h1 class="page-header">Competitive Analysis</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <!--
+      <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <li class="active"><a href="#">Competitive Analysis <span class="sr-only">(current)</span></a></li>
+        </ul>
+      </div>
+-->
+      <div class="col-sm-12 col-md-12 main">
+        <h1 class="page-header">Competitive Analysis</h1>
 
-          <div class="row">
-            <div class="col-md-4">
-              <form class="form-inline">
-                <div class="form-group">
-                  <label class="sr-only">Ticker</label>
-                  <p class="form-control-static">Ticker</p>
-                </div>
-                <div class="form-group">
-                  <input type="text" ng-model="ticker" class="form-control" placeholder="FB">
-                </div>
-                <button type="submit" class="btn btn-success" ng-click="go()">Go</button>
-              </form>
-            </div>
-            <div class="col-md-6">
-              <table ng-if="profile.sector" class="table table-bordered" id="profileGrid">
-                <tr>
-                  <th>Sector</th>
-                  <td>{{profile['sector']}}</td>
-                  <th>Industry</th>
-                  <td>{{profile['industry']}}</td>
-                </tr>
-              </table>
-            </div>
+        <div class="row">
+          <div class="col-md-4">
+            <form class="form-inline">
+              <div class="form-group">
+                <label class="sr-only">Ticker</label>
+                <p class="form-control-static">Ticker</p>
+              </div>
+              <div class="form-group">
+                <input type="text" ng-model="ticker" class="form-control" placeholder="FB">
+              </div>
+              <button type="submit" class="btn btn-success" ng-click="go()">Go</button>
+            </form>
           </div>
+          <div class="col-md-6">
+            <table ng-if="profile.sector" class="table table-bordered" id="profileGrid">
+              <tr>
+                <th>Sector</th>
+                <td>{{profile['sector']}}</td>
+                <th>Industry</th>
+                <td>{{profile['industry']}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
 
-         <h3 class="sub-header">Data <span ng-if="data.length">({{tickerDisplay}})</span></h3>
-         <div class="table-responsive" id="compGrid" ng-controller="compTableController">
+        <h3 class="sub-header">Data <span ng-if="data.length">({{tickerDisplay}})</span></h3>
+        <div class="table-responsive" id="compGrid" ng-controller="compTableController">
           <table class="table table-bordered" datatable="ng"  dt-instance="dtInstance" dt-options="tableOptions" dt-column-defs="tableColumnDefs" dt-disable-deep-watchers="true">
             <thead>
               <tr>
@@ -86,7 +87,7 @@
                 <th colspan="5">Solvency</th>
                 <th colspan="3">Operation (Manufacturing and Merchandise)</th>
                 <th colspan="4">Cash Flow</th>
-                <th colspan="8">Valuation</th>
+                <th colspan="7">Valuation</th>
               </tr>
               <tr>
                 <th>Market Capitalization</th>
@@ -127,7 +128,6 @@
                 <th>Price/Sales</th>
                 <th>Price/NAV</th>
                 <th>Dividend Yield</th>
-                <th>Cash Flow Coverage</th>
                 <th>EV/EBITDA</th>
               </tr>
             </thead>
@@ -173,14 +173,13 @@
                 <td>{{ticker['Price/Sales']}}</td>
                 <td><!-- Price/NAV --></td>
                 <td>{{ticker['Dividend Yield']}}</td>
-                <td><!-- Cash Flow Coverage --></td>
                 <td><!-- EV/EBITDA --></td>
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-    </div>
-  </div>
+        </div>    <!-- #compGrid -->
+      </div>    <!-- col-sm-12 main -->
+    </div>    <!-- main row -->
+  </div>    <!-- main container -->
 </body>
 </html>

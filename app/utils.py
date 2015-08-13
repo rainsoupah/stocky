@@ -9,5 +9,5 @@ def toNum(s):
 	try: 
 		return float(s.replace(',', ''))
 	except:
-		if s == '-': return 0
+		if s == '-': return 0		# if it doesn't exist, then assume 0.
 		return s
