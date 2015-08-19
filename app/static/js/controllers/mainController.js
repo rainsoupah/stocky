@@ -25,15 +25,17 @@ stocky.controller('mainController', function($scope, yahooService) {
         }, handleError);
 
         yahooService.getCompetitors($scope.ticker).then(function(competitors) {
-            yahooService.getQuotes(competitors).then(function(data) {
-                $scope.data = $scope.data.concat(data);
-                for (var i = 0; i < competitors.length; i++) {
-                    yahooService.getFinancials(competitors[i], i).then(function(data) {
-                        $scope.financialData[competitors[data.index]] = data.result;
-                        parseFinancials(data.index+1);
-                    })
-                }
-            }); 
+            if (competitors.length != 0) {
+                yahooService.getQuotes(competitors).then(function(data) {
+                    $scope.data = $scope.data.concat(data);
+                    for (var i = 0; i < competitors.length; i++) {
+                        yahooService.getFinancials(competitors[i], i).then(function(data) {
+                            $scope.financialData[competitors[data.index]] = data.result;
+                            parseFinancials(data.index+1);
+                        })
+                    }
+                }); 
+            }
         }, handleError);
     }
 

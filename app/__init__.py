@@ -26,7 +26,7 @@ def home():
 
 
 @app.route('/api/google/getAllFinances', methods=['GET'])
-def googleGetBalanceSheet():
+def googleGgetAllFinances():
     FS_TAGS = {
         'incannualdiv': 'IS',
         'balannualdiv': 'BS',
@@ -127,9 +127,11 @@ def nasdaqGetCompetitors():
         r = requests.get(url)
         raw = json.loads(r.text)
 
-        for competitor in raw['query']['results']['td']:
-            if competitor['a']['content'] != symbol and not competitor['a']['content'] in result:
-                result.append(competitor['a']['content'])
+
+        if raw['query']['count'] != 0:
+            for competitor in raw['query']['results']['td']:
+                if competitor['a']['content'] != symbol and not competitor['a']['content'] in result:
+                    result.append(competitor['a']['content'])
 
     comps = Competitor(symbol, json.dumps(result))
     db.session.add(comps)
@@ -151,6 +153,12 @@ def yahooGetProfile():
 
     r = requests.get(url)
     raw = json.loads(r.text)
+
+    if raw['query']['count'] == 0:
+        return jsonify({
+            'sector': 'N/A',
+            'industry': 'N/A'
+            })
 
     result = {
         'sector': raw['query']['results']['td'][1]['a']['content'],
