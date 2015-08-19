@@ -8,30 +8,40 @@ import requests, json
 
 from utils import escape, toNum
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))       # we set this file as the base directory (so imports work from this point)
+
 app = Flask(__name__)
 app.debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
 
+# creating the SQL database with the schemas needed
 db = SQLAlchemy(app)
 from models import Competitor, FinancialStatement
-
 db.create_all()
 
+
+# Home Page
 @app.route('/')
 def home():
     return make_response(open('%s/templates/index.html' % BASE_DIR).read())
 
 # APIs
-
-
+ 
 @app.route('/api/google/getAllFinances', methods=['GET'])
-def googleGgetAllFinances():
+def googleGetAllFinances():
+    """Gets the finanical statements given a ticker
+
+    Args:
+        s: ticker.
+    Returns:
+        the JSON of the 3 finance statements.
+    """
     FS_TAGS = {
         'incannualdiv': 'IS',
         'balannualdiv': 'BS',
         'casannualdiv': 'CF'
     }
+
     symbol = request.args.get('s', '')
 
     fs = FinancialStatement.query.get(symbol)
@@ -48,7 +58,7 @@ def googleGgetAllFinances():
                 &format=json
             """ % urllib.quote_plus(
                 "https://www.google.com/finance?q=NASDAQ:%s&fstype=ii"
-                % symbol)
+                % symbol)   # quote_plus to url encode the string
 
 
     r = requests.get(url)
@@ -78,33 +88,20 @@ def googleGgetAllFinances():
 
     return jsonify(**result)
 
-@app.route('/api/nasdaq/getRatios', methods=['GET'])
-def nasdaqGetRatios():
-    symbol = request.args.get('s', '')
-    url = """http://query.yahooapis.com/v1/public/yql?q=
-                    select * 
-                    from html 
-                    where url="%s" 
-                    and xpath='//div[contains(@class,"genTable")]//th/..'
-                &format=json
-            """ % urllib.quote_plus(
-                "http://www.nasdaq.com/symbol/%s/financials?query=ratios"
-                % symbol.lower())
-
-    r = requests.get(url)
-    raw = json.loads(r.text)
-
-    result = {};
-
-    for row in raw['query']['results']['tr']:
-        if 'td' in row:
-            result[row['th']['content'] if isinstance(row['th'], dict) else row['th']] = row['td'][1]
-
-    return jsonify(**result)
-
-
 @app.route('/api/nasdaq/getCompetitors', methods=['GET'])
 def nasdaqGetCompetitors():
+    """Gets the tickers of the competitors given a ticker.
+        Sometimes there are more than one page of competitors. 
+        By default only 1 page (25 tickers) is retrived.
+        The tickers are sorted by decending market capitalization.
+
+    Args:
+        s: ticker.
+        p: num of pages to retrive (default 1)
+    Returns:
+        list of tickers as competitors
+    """
+
     symbol = request.args.get('s', '')
     pages = request.args.get('p', 1)
     result = []
@@ -141,6 +138,14 @@ def nasdaqGetCompetitors():
 
 @app.route('/api/yahoo/getProfile', methods=['GET'])
 def yahooGetProfile():
+    """Gets the sector and industry given ticker
+
+    Args:
+        s: ticker
+    Returns:
+        a JSON object with sector and industry
+    """
+
     symbol = request.args.get('s', '')
 
     url = """http://query.yahooapis.com/v1/public/yql?q=
@@ -166,8 +171,21 @@ def yahooGetProfile():
     }
     return jsonify(**result)
 
+
+
+# Given a list of tickers, find the stock information of each
+# @param [String] s     (tickers)
+# @return {'data': [...]}
 @app.route('/api/yahoo/getQuotes', methods=['GET'])
 def yahooGetQuotes():
+    """Get stock information given a ticker
+
+    Args:
+        s: ticker
+    Returns:
+        a JSON object with stock data
+    """
+
     QUOTES = ['d', 'j1', 'j4', 'l1', 'n', 'p5', 'p6', 'q', 'r', 'r1', 'r2', 'r5', 's', 's1', 's7', 't1', 't6', 't7', 't8', 'v', 'v1', 'v7', 'w', 'w1', 'w4', 'x', 'y']
     DESCRIPTION = [
         "Dividend/Share",

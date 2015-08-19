@@ -7,9 +7,10 @@ stocky.controller('mainController', function($scope, yahooService) {
     $scope.data = []
     $scope.financialData = {};
 
+    // gets all data after clicking the 'go' button
     $scope.go = function() {
         $scope.data = [];
-        $scope.ticker = $scope.ticker.toUpperCase();
+        $scope.ticker = $scope.ticker.toUpperCase();    // makes sure the ticker is uppercase
         $scope.tickerDisplay = $scope.ticker;
 
         yahooService.getQuotes([$scope.ticker]).then(function(data) {
