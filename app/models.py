@@ -1,4 +1,5 @@
 from . import db
+import datetime
 
 
 class Competitor(db.Model):
@@ -18,10 +19,11 @@ class Competitor(db.Model):
 
 class FinancialStatement(db.Model):
 
-    __tablename__ = 'balance_sheet'
-    __table_args__ = {'extend_existing': True}
+    __tablename__ = 'financial_statement'
+    __table_args__ = {'extend_existing': True} 
 
     ticker = db.Column(db.String(10), primary_key=True)
+    lastUpdated = db.Column(db.DateTime, default = datetime.datetime.now)
     fsJSON = db.Column(db.Text)
 
     def __init__(self, ticker, json):

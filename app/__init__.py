@@ -5,6 +5,7 @@ import os
 import urllib2, urllib
 import csv, StringIO
 import requests, json
+import datetime
 
 from utils import escape, toNum
 
@@ -45,7 +46,7 @@ def googleGetAllFinances():
     symbol = request.args.get('s', '')
 
     fs = FinancialStatement.query.get(symbol)
-    if not fs is None:
+    if not fs is None and fs.lastUpdated > datetime.datetime.now()-datetime.timedelta(minutes=1):
         return jsonify(**json.loads(fs.fsJSON))
 
     url = """http://query.yahooapis.com/v1/public/yql?q=
@@ -57,18 +58,25 @@ def googleGetAllFinances():
                                      @id="casannualdiv"]'
                 &format=json
             """ % urllib.quote_plus(
-                "https://www.google.com/finance?q=NASDAQ:%s&fstype=ii"
+                "https://www.google.com/finance?q=%s&fstype=ii"
                 % symbol)   # quote_plus to url encode the string
-
-
-    r = requests.get(url)
-    raw = json.loads(r.text)
 
     result = {
         'IS': {},
         'BS': {},
         'CF': {}
     }
+    blank_r = result
+
+    max_retries = 3
+    while max_retries != 0:
+        max_retries -= 1
+        r = requests.get(url)
+        raw = json.loads(r.text)
+        if raw['query']['count'] != 0:
+            break
+        else: 
+            print raw
 
     if raw['query']['count'] != 0:
         for table in raw['query']['results']['div']:
@@ -82,8 +90,12 @@ def googleGetAllFinances():
                         content = row['td'][1]['span']['content']
                     result[tableId][dataColumn] = toNum(content)
 
-    fs = FinancialStatement(symbol, json.dumps(result))
-    db.session.add(fs)
+    if fs is None:                
+        fs = FinancialStatement(symbol, json.dumps(result))
+        db.session.add(fs)
+    else:
+        fs.fsJSON = json.dumps(result)
+        fs.lastUpdated = datetime.datetime.now()
     db.session.commit()
 
     return jsonify(**result)
