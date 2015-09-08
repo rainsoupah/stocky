@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- Based on HTML5 Bones | http://html5bones.com -->
+
+<html lang="en" ng-app="stocky">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Stocky</title>
+  
+  <meta name="description" content="">
+  
+  <!-- Style sheet link -->
+  <link href="static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css" rel="stylesheet">
+  <link href="static/css/main.css" rel="stylesheet">
+
+  <script src="static/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="static/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+  <script src="static/bower_components/angular/angular.min.js"></script>
+  <script src="static/bower_components/angular-route/angular-route.min.js"></script>
+  <script src="static/bower_components/angular-resource/angular-resource.min.js"></script>
+  <script src="static/bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
+  <script src="static/bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js"></script>
+  <script src="static/bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.min.js"></script>
+
+  <script src="static/js/main.js"></script>
+  <script src="static/js/controllers/compAnalysisController.js"></script>
+  <script src="static/js/controllers/compTableController.js"></script>
+
+</head>
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Stocky</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div ng-view></div>
+    </div>    <!-- main row -->
+  </div>    <!-- main container -->
+</body>
+</html>

@@ -1,5 +1,5 @@
 
-stocky.controller('mainController', function($scope, yahooService) {
+stocky.controller('compAnalysisController', function($scope, apiHandler) {
     $scope.ticker = "";
     $scope.tickerDisplay = "";
     $scope.profile = {};
@@ -13,24 +13,24 @@ stocky.controller('mainController', function($scope, yahooService) {
         $scope.ticker = $scope.ticker.toUpperCase();    // makes sure the ticker is uppercase
         $scope.tickerDisplay = $scope.ticker;
 
-        yahooService.getQuotes([$scope.ticker]).then(function(data) {
+        apiHandler.getQuotes([$scope.ticker]).then(function(data) {
             $scope.data.push(data[0]);
-            yahooService.getFinancials($scope.ticker, 0).then(function(data) {
+            apiHandler.getFinancials($scope.ticker, 0).then(function(data) {
                 $scope.financialData[$scope.ticker] = data.result;
                 parseFinancials(0);
             })
         }, handleError);
 
-        yahooService.getProfile($scope.ticker).then(function(data) {
+        apiHandler.getProfile($scope.ticker).then(function(data) {
             $scope.profile = data;
         }, handleError);
 
-        yahooService.getCompetitors($scope.ticker).then(function(competitors) {
+        apiHandler.getCompetitors($scope.ticker).then(function(competitors) {
             if (competitors.length != 0) {
-                yahooService.getQuotes(competitors).then(function(data) {
+                apiHandler.getQuotes(competitors).then(function(data) {
                     $scope.data = $scope.data.concat(data);
                     for (var i = 0; i < competitors.length; i++) {
-                        yahooService.getFinancials(competitors[i], i).then(function(data) {
+                        apiHandler.getFinancials(competitors[i], i).then(function(data) {
                             $scope.financialData[competitors[data.index]] = data.result;
                             parseFinancials(data.index+1);
                         })

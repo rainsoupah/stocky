@@ -1,7 +1,21 @@
-var stocky = angular.module('stocky',['ngResource', 'datatables', 'datatables.fixedcolumns']);
+var stocky = angular.module('stocky',['ngResource', 'ngRoute', 'datatables', 'datatables.fixedcolumns']);
+
+
+stocky.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
+            when('/compAnalysis', {
+                templateUrl: 'static/partials/competitor-analysis.html',
+                controller: 'compAnalysisController'
+            }).
+            otherwise({
+                redirectTo: '/compAnalysis'
+            });
+}]);
+
 
 // I act a repository for the remote friend collection.
-stocky.service( "yahooService", function( $http, $q ) {
+stocky.service( "apiHandler", function( $http, $q ) {
 
     // Return public API.
     return({
@@ -9,8 +23,25 @@ stocky.service( "yahooService", function( $http, $q ) {
         getProfile: getProfile,
         getCompetitors: getCompetitors,
         getRatios: getRatios,
-        getFinancials: getFinancials
+        getFinancials: getFinancials,
+        getScreenerResults: getScreenerResults,
     });
+
+    function getScreenerResults(last_price, last_price_comp, market_cap, market_cap_comp, sector, industry) {
+        var request = $http.get("api/nasdaq/screener", {
+            params: {
+                ls: last_price,
+                ls_comp: last_price_comp,
+                mc: market_cap,
+                mc_comp: market_cap_comp,
+                sec: sector,
+                ind: industry
+            }
+        })
+        return(request.then(function(response) {
+            return {result: response.data, index: i};
+        }, handleError));
+    }
 
     function getFinancials(ticker, i) {
         var request = $http.get("api/google/getAllFinances", {
