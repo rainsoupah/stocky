@@ -113,7 +113,7 @@ body {
   margin-bottom: 0px;
 }
 
-th {
+#compGrid th {
   background-color: white;
   text-align: center;
   font-size: 11px;
@@ -121,7 +121,7 @@ th {
   padding-right: 0px !important;
 }
 
-th {
+#compGrid th {
   min-width: 100px;
 }
 
