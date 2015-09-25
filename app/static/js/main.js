@@ -8,6 +8,10 @@ stocky.config(['$routeProvider',
                 templateUrl: 'static/partials/competitor-analysis.html',
                 controller: 'compAnalysisController'
             }).
+            when('/screener', {
+                templateUrl: 'static/partials/screener.html',
+                controller: 'screenerController'
+            }).
             otherwise({
                 redirectTo: '/compAnalysis'
             });
@@ -27,19 +31,24 @@ stocky.service( "apiHandler", function( $http, $q ) {
         getScreenerResults: getScreenerResults,
     });
 
-    function getScreenerResults(last_price, last_price_comp, market_cap, market_cap_comp, sector, industry) {
+    function getScreenerResults(filters) {
+
+        if (!filters.ls) {
+            delete filters.ls;
+            delete filters.ls_comp;
+        }
+        if (!filters.mc) {
+            delete filters.mc;
+            delete filters.mc_comp;
+        }
+        if (!filters.sec) delete filters.sec;
+        if (!filters.ind) delete filters.ind;
+        console.log(filters);
         var request = $http.get("api/nasdaq/screener", {
-            params: {
-                ls: last_price,
-                ls_comp: last_price_comp,
-                mc: market_cap,
-                mc_comp: market_cap_comp,
-                sec: sector,
-                ind: industry
-            }
+            params: filters
         })
         return(request.then(function(response) {
-            return {result: response.data, index: i};
+            return {result: response.data.data};
         }, handleError));
     }
 

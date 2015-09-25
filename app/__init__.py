@@ -24,9 +24,55 @@ db.create_all()
 # Home Page
 @app.route('/')
 def home():
-    return make_response(open('%s/templates/index.html' % BASE_DIR).read())
+    return make_response(open('%s/index.html' % BASE_DIR).read())
 
 # APIs
+
+@app.route('/api/nasdaq/screener')
+def nasdaqGetScreenerResults():
+
+    ls = float(request.args.get('ls', 0)) # lastsale value
+    ls_comp = request.args.get('ls_comp', '') # lastsale comparator
+    mc = float(request.args.get('mc', 0)) # marketcap value
+    mc_comp = request.args.get('mc_comp', '') # marketcap comparator
+    sec = request.args.get('sec', '') # sector
+    ind = request.args.get('ind', '') # industry 
+    url = "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&render=download"
+
+    scsv = urllib2.urlopen(url).read()
+    f = StringIO.StringIO(scsv)
+    reader = csv.reader(f, delimiter=',')
+
+    LastSale = 2
+    MarketCap = 3
+    Sector = 6
+    Industry = 7
+
+    results = []
+    i = 0
+    for stock in reader:
+        if stock[0] == 'Symbol':
+            results.append(stock)
+            continue
+        if stock[LastSale] == 'n/a' or stock[MarketCap] == 'n/a':
+            continue
+        if not ls is '':
+            stock_ls = float(stock[LastSale])
+            if (ls_comp == 'gt' and stock_ls < ls) or (ls_comp == 'lt' and stock_ls > ls):
+                continue
+        if not mc is '':
+            stock_mc = float(stock[MarketCap])
+            if (mc_comp == 'gt' and stock_mc < mc) or (mc_comp == 'lt' and stock_mc > mc):
+                print stock_mc
+                continue
+        if not sec is '' and sec != stock[Sector]:
+            continue
+        if not ind is '' and ind != stock[Industry]:
+            continue
+
+        results.append(stock)
+        
+    return jsonify(**{'data': results})
  
 @app.route('/api/google/getAllFinances', methods=['GET'])
 def googleGetAllFinances():
@@ -46,7 +92,7 @@ def googleGetAllFinances():
     symbol = request.args.get('s', '')
 
     fs = FinancialStatement.query.get(symbol)
-    if not fs is None and fs.lastUpdated > datetime.datetime.now()-datetime.timedelta(minutes=1):
+    if not fs is None and fs.lastUpdated > datetime.datetime.now()-datetime.timedelta(minutes=60*24):
         return jsonify(**json.loads(fs.fsJSON))
 
     url = """http://query.yahooapis.com/v1/public/yql?q=

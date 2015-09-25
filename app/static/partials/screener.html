@@ -1,0 +1,245 @@
+
+<div class="col-sm-12 col-md-12 main">
+  <h1 class="page-header">Stock Screener</h1>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-horizontal">
+      <fieldset>
+
+      <!-- Button Drop Down -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="lastprice">Last Price</label>
+        <div class="col-md-4">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <select ng-model="formData.ls_comp" class="form-control" style="width:130px">
+                <option value="gt">Greater than</option>
+                <option value="lt">Less than</option>
+              </select>
+            </div>
+            <input ng-model="formData.ls" class="form-control" placeholder="0" type="number">
+          </div>
+        </div>
+      </div>
+
+      <!-- Button Drop Down -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="marketcap">Market Cap</label>
+        <div class="col-md-4">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <select ng-model="formData.mc_comp" class="form-control" style="width:130px">
+                <option value="gt">Greater than</option>
+                <option value="lt">Less than</option>
+              </select>
+            </div>
+            <input ng-model="formData.mc" class="form-control" placeholder="0" type="number">
+          </div>
+        </div>
+      </div>
+
+      <!-- Select Basic -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="sector">Sector</label>
+        <div class="col-md-4">
+          <select ng-model="formData.sec" class="form-control">
+            <option value""></option>
+            <option value="Finance">Finance</option>
+            <option value="Consumer Services">Consumer Services</option>
+            <option value="Technology">Technology</option>
+            <option value="Public Utilities">Public Utilities</option>
+            <option value="Capital Goods">Capital Goods</option>
+            <option value="Basic Industries">Basic Industries</option>
+            <option value="Health Care">Health Care</option>
+            <option value="Energy">Energy</option>
+            <option value="Miscellaneous">Miscellaneous</option>
+            <option value="n/a">n/a</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Consumer Non-Durables">Consumer Non-Durables</option>
+            <option value="Consumer Durables">Consumer Durables</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Select Basic -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="industry">Industry</label>
+        <div class="col-md-4">
+          <select ng-model="formData.ind" class="form-control">
+            <option value""></option>
+            <option value"Accident &Health Insurance">Accident &Health Insurance</option>
+            <option value"Advertising">Advertising</option>
+            <option value"Aerospace">Aerospace</option>
+            <option value"Agricultural Chemicals">Agricultural Chemicals</option>
+            <option value"Air Freight/Delivery Services">Air Freight/Delivery Services</option>
+            <option value"Aluminum">Aluminum</option>
+            <option value"Apparel">Apparel</option>
+            <option value"Auto Manufacturing">Auto Manufacturing</option>
+            <option value"Auto Parts:O.E.M.">Auto Parts:O.E.M.</option>
+            <option value"Automotive Aftermarket">Automotive Aftermarket</option>
+            <option value"Banks">Banks</option>
+            <option value"Beverages (Production/Distribution)">Beverages (Production/Distribution)</option>
+            <option value"Biotechnology: Biological Products (No Diagnostic Substances)">Biotechnology: Biological Products (No </option>Diagnostic Substances)
+            <option value"Biotechnology: Commercial Physical & Biological Resarch">Biotechnology: Commercial Physical & </option>Biological Resarch
+            <option value"Biotechnology: Electromedical & Electrotherapeutic Apparatus">Biotechnology: Electromedical & </option>Electrotherapeutic Apparatus
+            <option value"Biotechnology: In Vitro & In Vivo Diagnostic Substances">Biotechnology: In Vitro & In Vivo Diagnostic </option>Substances
+            <option value"Biotechnology: Laboratory Analytical Instruments">Biotechnology: Laboratory Analytical Instruments</option>
+            <option value"Books">Books</option>
+            <option value"Broadcasting">Broadcasting</option>
+            <option value"Building Materials">Building Materials</option>
+            <option value"Building operators">Building operators</option>
+            <option value"Building Products">Building Products</option>
+            <option value"Business Services">Business Services</option>
+            <option value"Catalog/Specialty Distribution">Catalog/Specialty Distribution</option>
+            <option value"Clothing/Shoe/Accessory Stores">Clothing/Shoe/Accessory Stores</option>
+            <option value"Coal Mining">Coal Mining</option>
+            <option value"Commercial Banks">Commercial Banks</option>
+            <option value"Computer Communications Equipment">Computer Communications Equipment</option>
+            <option value"Computer Manufacturing">Computer Manufacturing</option>
+            <option value"Computer peripheral equipment">Computer peripheral equipment</option>
+            <option value"Computer Software: Prepackaged Software">Computer Software: Prepackaged Software</option>
+            <option value"Computer Software: Programming, Data Processing">Computer Software: Programming, Data Processing</option>
+            <option value"Construction/Ag Equipment/Trucks">Construction/Ag Equipment/Trucks</option>
+            <option value"Consumer Electronics/Appliances">Consumer Electronics/Appliances</option>
+            <option value"Consumer Electronics/Video Chains">Consumer Electronics/Video Chains</option>
+            <option value"Consumer Specialties">Consumer Specialties</option>
+            <option value"Containers/Packaging">Containers/Packaging</option>
+            <option value"Department/Specialty Retail Stores">Department/Specialty Retail Stores</option>
+            <option value"Diversified Commercial Services">Diversified Commercial Services</option>
+            <option value"Diversified Electronic Products">Diversified Electronic Products</option>
+            <option value"EDP Services">EDP Services</option>
+            <option value"Electric Utilities: Central">Electric Utilities: Central</option>
+            <option value"Electrical Products">Electrical Products</option>
+            <option value"Electronic Components">Electronic Components</option>
+            <option value"Engineering & Construction">Engineering & Construction</option>
+            <option value"Environmental Services">Environmental Services</option>
+            <option value"Farming/Seeds/Milling">Farming/Seeds/Milling</option>
+            <option value"Finance Companies">Finance Companies</option>
+            <option value"Finance/Investors Services">Finance/Investors Services</option>
+            <option value"Finance: Consumer Services">Finance: Consumer Services</option>
+            <option value"Food Chains">Food Chains</option>
+            <option value"Food Distributors">Food Distributors</option>
+            <option value"Forest Products">Forest Products</option>
+            <option value"Home Furnishings">Home Furnishings</option>
+            <option value"Homebuilding">Homebuilding</option>
+            <option value"Hospital/Nursing Management">Hospital/Nursing Management</option>
+            <option value"Hotels/Resorts">Hotels/Resorts</option>
+            <option value"Industrial Machinery/Components">Industrial Machinery/Components</option>
+            <option value"Industrial Specialties">Industrial Specialties</option>
+            <option value"Industry">Industry</option>
+            <option value"Integrated oil Companies">Integrated oil Companies</option>
+            <option value"Investment Bankers/Brokers/Service">Investment Bankers/Brokers/Service</option>
+            <option value"Investment Managers">Investment Managers</option>
+            <option value"Life Insurance">Life Insurance</option>
+            <option value"Major Banks">Major Banks</option>
+            <option value"Major Chemicals">Major Chemicals</option>
+            <option value"Major Pharmaceuticals">Major Pharmaceuticals</option>
+            <option value"Marine Transportation">Marine Transportation</option>
+            <option value"Meat/Poultry/Fish">Meat/Poultry/Fish</option>
+            <option value"Medical Electronics">Medical Electronics</option>
+            <option value"Medical Specialities">Medical Specialities</option>
+            <option value"Medical/Dental Instruments">Medical/Dental Instruments</option>
+            <option value"Medical/Nursing Services">Medical/Nursing Services</option>
+            <option value"Metal Fabrications">Metal Fabrications</option>
+            <option value"Military/Government/Technical">Military/Government/Technical</option>
+            <option value"Mining & Quarrying of Nonmetallic Minerals (No Fuels)">Mining & Quarrying of Nonmetallic Minerals (No </option>Fuels)
+            <option value"Miscellaneous">Miscellaneous</option>
+            <option value"Miscellaneous manufacturing industries">Miscellaneous manufacturing industries</option>
+            <option value"Motor Vehicles">Motor Vehicles</option>
+            <option value"Movies/Entertainment">Movies/Entertainment</option>
+            <option value"Multi-Sector Companies">Multi-Sector Companies</option>
+            <option value"n/a">n/a</option>
+            <option value"Natural Gas Distribution">Natural Gas Distribution</option>
+            <option value"Newspapers/Magazines">Newspapers/Magazines</option>
+            <option value"Office Equipment/Supplies/Services">Office Equipment/Supplies/Services</option>
+            <option value"Oil & Gas Production">Oil & Gas Production</option>
+            <option value"Oil Refining/Marketing">Oil Refining/Marketing</option>
+            <option value"Oilfield Services/Equipment">Oilfield Services/Equipment</option>
+            <option value"Ophthalmic Goods">Ophthalmic Goods</option>
+            <option value"Ordnance And Accessories">Ordnance And Accessories</option>
+            <option value"Other Consumer Services">Other Consumer Services</option>
+            <option value"Other Pharmaceuticals">Other Pharmaceuticals</option>
+            <option value"Other Specialty Stores">Other Specialty Stores</option>
+            <option value"Other Transportation">Other Transportation</option>
+            <option value"Package Goods/Cosmetics">Package Goods/Cosmetics</option>
+            <option value"Packaged Foods">Packaged Foods</option>
+            <option value"Paper">Paper</option>
+            <option value"Plastic Products">Plastic Products</option>
+            <option value"Pollution Control Equipment">Pollution Control Equipment</option>
+            <option value"Power Generation">Power Generation</option>
+            <option value"Precious Metals">Precious Metals</option>
+            <option value"Precision Instruments">Precision Instruments</option>
+            <option value"Professional Services">Professional Services</option>
+            <option value"Property-Casualty Insurers">Property-Casualty Insurers</option>
+            <option value"Publishing">Publishing</option>
+            <option value"Radio And Television Broadcasting And Communications Equipment">Radio And Television Broadcasting And </option>Communications Equipment
+            <option value"Railroads">Railroads</option>
+            <option value"Real Estate">Real Estate</option>
+            <option value"Real Estate Investment Trusts">Real Estate Investment Trusts</option>
+            <option value"Recreational Products/Toys">Recreational Products/Toys</option>
+            <option value"Rental/Leasing Companies">Rental/Leasing Companies</option>
+            <option value"Restaurants">Restaurants</option>
+            <option value"RETAIL: Building Materials">RETAIL: Building Materials</option>
+            <option value"Retail: Computer Software & Peripheral Equipment">Retail: Computer Software & Peripheral Equipment</option>
+            <option value"Savings Institutions">Savings Institutions</option>
+            <option value"Semiconductors">Semiconductors</option>
+            <option value"Services-Misc. Amusement & Recreation">Services-Misc. Amusement & Recreation</option>
+            <option value"Shoe Manufacturing">Shoe Manufacturing</option>
+            <option value"Specialty Chemicals">Specialty Chemicals</option>
+            <option value"Specialty Foods">Specialty Foods</option>
+            <option value"Specialty Insurers">Specialty Insurers</option>
+            <option value"Steel/Iron Ore">Steel/Iron Ore</option>
+            <option value"Telecommunications Equipment">Telecommunications Equipment</option>
+            <option value"Television Services">Television Services</option>
+            <option value"Textiles">Textiles</option>
+            <option value"Tobacco">Tobacco</option>
+            <option value"Transportation Services">Transportation Services</option>
+            <option value"Trucking Freight/Courier Services">Trucking Freight/Courier Services</option>
+            <option value"Water Supply">Water Supply</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Select Basic -->
+      <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-success" ng-click="go()">Find Results</button>
+        </div>
+      </div>
+
+      </fieldset>
+      </form>
+
+    </div>
+  </div>
+
+  <h3 class="sub-header">Results</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered" >
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Name</th>
+          <th>Last Sale</th>
+          <th>Market Capitalization</th>
+          <th>IPO Year</th>
+          <th>Sector</th>
+          <th>Industry</th>
+        </tr>
+      </thead>
+      <tbody>                
+        <tr ng-repeat="ticker in data">
+          <th><a target="_blank" href="{{ticker[8]}}">{{ticker[0]}}</a></th>
+          <td>{{ticker[1]}}</td>
+          <td>{{ticker[2]}}</td>
+          <td>{{ticker[3]}}</td>
+          <td>{{ticker[5]}}</td>
+          <td>{{ticker[6]}}</td>
+          <td>{{ticker[7]}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>    <!-- col-sm-12 main -->
