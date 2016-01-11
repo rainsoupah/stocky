@@ -20,7 +20,6 @@ db = SQLAlchemy(app)
 from models import Competitor, FinancialStatement
 db.create_all()
 
-
 # Home Page
 @app.route('/')
 def home():
@@ -74,10 +73,11 @@ def nasdaqGetScreenerResults():
         
     return jsonify(**{'data': results})
  
+# APIs
+
 @app.route('/api/google/getAllFinances', methods=['GET'])
 def googleGetAllFinances():
     """Gets the finanical statements given a ticker
-
     Args:
         s: ticker.
     Returns:
@@ -295,4 +295,60 @@ def yahooGetQuotes():
         results.append(result)
 
     return jsonify(**{'data': results})
+
+# SCREENER GOAL:
+# Get parameters that filter the results
+# Download and parse CSV
+# Return stocks that fit criterion
+@app.route('/api/nasdaq/screener')
+def nasdagetScreenerResults():
+    ls = request.args.get('ls', '') # lastsale value
+    ls_comp = request.args.get('ls_comp', '') # lastsale comparator, 'GT','LT','GTE','LTE'
+    mc = request.args.get('mc', '') # marketcap value
+    mc_comp = request.args.get('mc_comp', '') # marketcap comparator
+    sec = request.args.get('sec', '') # sector
+    ind = request.args.get('ind', '') # industry 
+
+    # parse csv
+    url = "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&render=download"
+    response = urllib2.urlopen(url).read()
+    f = StringIO.StringIO(response)
+    reader = csv.reader(f, delimiter=',')
+
+    # collect results
+    # constants
+    LastSale = 2
+    MarketCap = 3
+    Sector = 6
+    Industry = 7
+    results = []
+
+    for stock in reader:
+
+        if stock[0] == 'Symbol':
+           results.append(stock)
+           continue
+        if not (ls == ''):
+            try:
+                if (ls_comp == 'GT' and float(stock[LastSale]) <= float(ls)) or (ls_comp == 'LT' and float(stock[LastSale]) >= float(ls)):
+                    continue
+            except ValueError:
+                continue
+        if not (mc == ''):
+            try:
+                if (mc_comp == 'GT' and float(stock[MarketCap]) <= float(ls)) or (mc_comp == 'LT' and float(stock[MarketCap]) >= float(mc)):
+                    continue
+            except ValueError:
+                continue
+        if not (sec == ''):
+            if (sec != stock[Sector]):
+                continue
+        if not (ind == ''):
+            if (ind != stock[Industry]):
+                continue  
+        print stock[Industry]
+        results.append(stock)
+
+    return jsonify(**{'data': results})
+
 
