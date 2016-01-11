@@ -10,7 +10,7 @@ stocky.controller('screenerController', function($scope, apiHandler) {
 
         apiHandler.getScreenerResults($scope.resultFilters).then(function(data) {
         	console.log(data);
-        	delete data.result.data[0]
+        	data.result.splice(0, 1);
         	$scope.data = data.result;
         });
     }
